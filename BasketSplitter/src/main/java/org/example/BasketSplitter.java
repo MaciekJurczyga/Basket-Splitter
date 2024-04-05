@@ -32,8 +32,51 @@ public class BasketSplitter {
                 }
             }
         }
+        while(!items.isEmpty()){
+            String bestDelivery = getBestDelivery(deliveryOccurrences);
+            List<String> products = new ArrayList<>();
+            List<String> itemsCopy = new ArrayList<>(items);
+            for(String item:itemsCopy){
+                products.clear();
+                if(getDeliveryMethods(item).contains(bestDelivery)){
+                    if(answer.containsKey(bestDelivery)){
+                        products = answer.get(bestDelivery);
+                        products.add(item);
+                        answer.put(bestDelivery, products);
+                    }
+                    else{
+                        products.add(item);
+                        answer.put(bestDelivery, products);
+                    }
+                    items.remove(item);
+                    for(String option:getDeliveryMethods(item)){
+                        deliveryOccurrences.put(option, deliveryOccurrences.get(option)-1);
+                    }
 
-        return null;
+                }
+            }
+            deliveryOccurrences.remove(bestDelivery);
+        }
+
+
+        return answer;
+    }
+
+    private String getBestDelivery(Map<String, Integer> deliveryOccurrences) {
+        String bestDelivery = null;
+        int maxOccurrences = Integer.MIN_VALUE;
+
+        for (Map.Entry<String, Integer> entry : deliveryOccurrences.entrySet()) {
+            String delivery = entry.getKey();
+            int occurrences = entry.getValue();
+
+            if (occurrences > maxOccurrences) {
+                maxOccurrences = occurrences;
+                bestDelivery = delivery;
+            }
+        }
+        
+        return bestDelivery;
     }
 
 
