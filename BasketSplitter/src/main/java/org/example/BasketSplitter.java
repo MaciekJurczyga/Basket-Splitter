@@ -37,23 +37,14 @@ public class BasketSplitter {
             List<String> products = new ArrayList<>();
             List<String> itemsCopy = new ArrayList<>(items);
             for(String item:itemsCopy){
-                products.clear();
                 if(getDeliveryMethods(item).contains(bestDelivery)){
-                    if(answer.containsKey(bestDelivery)){
-                        products = answer.get(bestDelivery);
-                        products.add(item);
-                        answer.put(bestDelivery, products);
-                    }
-                    else{
-                        products.add(item);
-                        answer.put(bestDelivery, products);
-                    }
+                    products.add(item);
                     items.remove(item);
                     for(String option:getDeliveryMethods(item)){
                         deliveryOccurrences.put(option, deliveryOccurrences.get(option)-1);
                     }
-
                 }
+                answer.put(bestDelivery, products);
             }
             deliveryOccurrences.remove(bestDelivery);
         }
@@ -75,7 +66,7 @@ public class BasketSplitter {
                 bestDelivery = delivery;
             }
         }
-        
+
         return bestDelivery;
     }
 
