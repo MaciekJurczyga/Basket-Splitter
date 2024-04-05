@@ -1,8 +1,8 @@
 package org.example;
 
-
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +18,20 @@ public class BasketSplitter {
     }
 
 
-    public Map<String, List<Integer>> split(List<String> items){
+    public Map<String, List<String>> split(List<String> items){
+        Map<String, Integer> deliveryOccurrences = new HashMap<>();
+        Map<String, List<String>> answer = new HashMap<>();
+        for(String item:items){
+            List<String> deliveryOptions = getDeliveryMethods(item);
+            for(String option:deliveryOptions){
+                if(deliveryOccurrences.containsKey(option)){
+                    deliveryOccurrences.put(option, deliveryOccurrences.get(option)+1);
+                }
+                else{
+                    deliveryOccurrences.put(option, 1);
+                }
+            }
+        }
 
         return null;
     }
